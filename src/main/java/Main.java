@@ -3,22 +3,20 @@ public class Main {
         Chopstick[] chopsticks = new Chopstick[5];
         Philosopher[] philosophers = new Philosopher[5];
 
-        for (int i = 0; i < 5; i++) {
-            Chopstick c = new Chopstick("0");
-            chopsticks[i] = c;
+        for (int i = 1; i <= 5; i++) {
+            Chopstick c = new Chopstick(i);
+            chopsticks[i-1] = c;
         }
 
-        philosophers[0] = new Philosopher("P 0", chopsticks[0], chopsticks[1]);
-        philosophers[1] = new Philosopher("P 1", chopsticks[1], chopsticks[2]);
-        philosophers[2] = new Philosopher("P 2", chopsticks[2], chopsticks[3]);
-        philosophers[3] = new Philosopher("P 3", chopsticks[3], chopsticks[4]);
-        philosophers[4] = new Philosopher("P 4", chopsticks[0], chopsticks[4]);
+        philosophers[0] = new Philosopher("P 1", chopsticks[0], chopsticks[4]);
+        philosophers[1] = new Philosopher("P 2", chopsticks[1], chopsticks[0]);
+        philosophers[2] = new Philosopher("P 3", chopsticks[2], chopsticks[1]);
+        philosophers[3] = new Philosopher("P 4", chopsticks[3], chopsticks[2]);
+        philosophers[4] = new Philosopher("P 5", chopsticks[4], chopsticks[3]);
 
-        for (int i = 0; i < philosophers.length; i++) {
-            Thread t = new Thread(philosophers[i]);
+        for (Philosopher philosopher : philosophers) {
+            Thread t = new Thread(philosopher);
             t.start();
         }
-
-
     }
 }

@@ -1,23 +1,31 @@
+import java.util.concurrent.Semaphore;
+
 public class Chopstick {
-    private String name;
-    private boolean isBeingUsed;
+    private Semaphore semaphore;
 
-    public Chopstick(String name) {
-        this.name = name;
-        isBeingUsed = false;
+    private int id;
+
+    public Chopstick(int id) {
+        this.id = id;
+
+        this.semaphore = new Semaphore(1);
     }
 
-    public synchronized void take() {
-        System.out.printf("Chopstick %s taken", this.name);
-        isBeingUsed = true;
+    public int getId() {
+        return this.id;
     }
 
-    public synchronized void release() {
-        System.out.printf("Chopstick %s is released", this.name);
-        isBeingUsed = false;
+    public void take() {
+        try {
+            semaphore.acquire();
+            System.out.printf("Chopstick %d is taken\n", id);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public synchronized boolean isUsed() {
-        return isBeingUsed;
+    public void release() {
+        System.out.printf("Chopstick %d is released\n", id);
+        semaphore.release();
     }
 }
